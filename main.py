@@ -6,8 +6,6 @@ import requests
 import telegram
 from dotenv import load_dotenv
 
-load_dotenv()
-
 URl = 'https://dvmn.org/api/long_polling/'
 DEVMAN_TOKEN = os.getenv('DVMN_TOKEN')
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
@@ -50,6 +48,8 @@ def send_message(bot, result):
 
 
 def main():
+    load_dotenv()
+    initialize_logger()
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
     timestamp = None
 
@@ -70,5 +70,4 @@ def main():
 
 
 if __name__ == '__main__':
-    initialize_logger()
     main()
