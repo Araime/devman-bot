@@ -9,14 +9,6 @@ from dotenv import load_dotenv
 URl = 'https://dvmn.org/api/long_polling/'
 
 
-def initialize_logger():
-    logging.basicConfig(
-        filename='bot.log',
-        filemode='w',
-        level=logging.INFO,
-        format='%(filename)s - %(name)s - %(levelname)s - %(message)s')
-
-
 def check_lesson_status(timestamp):
     devman_token = os.getenv('DVMN_TOKEN')
     headers = {'Authorization': f'Token {devman_token}'}
@@ -48,7 +40,13 @@ def send_message(bot, result):
 
 def main():
     load_dotenv()
-    initialize_logger()
+
+    logging.basicConfig(
+        filename='bot.log',
+        filemode='w',
+        level=logging.INFO,
+        format='%(filename)s - %(name)s - %(levelname)s - %(message)s')
+
     bot = telegram.Bot(token=os.getenv('TELEGRAM_TOKEN'))
     timestamp = None
 
