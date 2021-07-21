@@ -55,6 +55,7 @@ def main():
             result = check_lesson_status(timestamp)
             if result['status'] == 'timeout':
                 timestamp = result['timestamp_to_request']
+                continue
             timestamp = result['last_attempt_timestamp']
             send_message(bot, result)
 
