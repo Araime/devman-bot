@@ -40,10 +40,9 @@ def main():
     load_dotenv()
 
     logging.basicConfig(
-        filename='bot.log',
-        filemode='w',
         level=logging.INFO,
         format='%(filename)s - %(name)s - %(levelname)s - %(message)s')
+    logging.info('Бот запущен и приветствует тебя')
 
     bot = telegram.Bot(token=os.getenv('TELEGRAM_TOKEN'))
     timestamp = None
