@@ -1,5 +1,6 @@
 import logging
 import os
+import textwrap
 import time
 
 import requests
@@ -25,17 +26,14 @@ def send_message(bot, result):
     url = checking_result['lesson_url']
 
     if checking_result['is_negative']:
-        bot.send_message(
-            chat_id=telegram_chat_id,
-            text=f'У вас проверили работу "{title}" \n'
-                 f'К сожалению, в работе нашлись ошибки. ☟\n'
-                 f'https://dvmn.org{url}')
+        text_message = f'''У вас проверили работу "{title}"
+            К сожалению, в работе нашлись ошибки. ☟ 
+            https://dvmn.org{url}'''
     else:
-        bot.send_message(
-            chat_id=telegram_chat_id,
-            text=f'У вас проверили работу "{title}" \n'
-                 f'Преподавателю всё понравилось 👍, можно приступать к следующему уроку! \n'
-                 f'https://dvmn.org{url}')
+        text_message = f'''У вас проверили работу "{title}" 
+            Преподавателю всё понравилось 👍, можно приступать к следующему уроку! 
+            https://dvmn.org{url}'''
+    bot.send_message(chat_id=telegram_chat_id, text=textwrap.dedent(text_message))
 
 
 def main():
