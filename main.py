@@ -7,9 +7,6 @@ import telegram
 from dotenv import load_dotenv
 
 URl = 'https://dvmn.org/api/long_polling/'
-DEVMAN_TOKEN = os.getenv('DVMN_TOKEN')
-TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
-TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
 
 def initialize_logger():
@@ -21,7 +18,8 @@ def initialize_logger():
 
 
 def check_lesson_status(timestamp):
-    headers = {'Authorization': f'Token {DEVMAN_TOKEN}'}
+    devman_token = os.getenv('DVMN_TOKEN')
+    headers = {'Authorization': f'Token {devman_token}'}
     payloads = {'timestamp': timestamp}
     response = requests.get(URl, headers=headers, params=payloads, timeout=50)
     response.raise_for_status()
@@ -29,19 +27,20 @@ def check_lesson_status(timestamp):
 
 
 def send_message(bot, result):
+    telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
     checking_result = result['new_attempts'][0]
     title = checking_result['lesson_title']
     url = checking_result['lesson_url']
 
     if checking_result['is_negative']:
         bot.send_message(
-            chat_id=TELEGRAM_CHAT_ID,
+            chat_id=telegram_chat_id,
             text=f'У вас проверили работу "{title}" \n'
                  f'К сожалению, в работе нашлись ошибки. ☟\n'
                  f'https://dvmn.org{url}')
     else:
         bot.send_message(
-            chat_id=TELEGRAM_CHAT_ID,
+            chat_id=telegram_chat_id,
             text=f'У вас проверили работу "{title}" \n'
                  f'Преподавателю всё понравилось 👍, можно приступать к следующему уроку! \n'
                  f'https://dvmn.org{url}')
@@ -50,7 +49,7 @@ def send_message(bot, result):
 def main():
     load_dotenv()
     initialize_logger()
-    bot = telegram.Bot(token=TELEGRAM_TOKEN)
+    bot = telegram.Bot(token=os.getenv('TELEGRAM_TOKEN'))
     timestamp = None
 
     while True:
