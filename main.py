@@ -72,10 +72,9 @@ def main():
             result = check_lesson_status(timestamp, devman_token)
             if result['status'] == 'timeout':
                 timestamp = result['timestamp_to_request']
-                continue
-            timestamp = result['last_attempt_timestamp']
-            send_message(bot, result, telegram_chat_id)
-
+            else:
+                timestamp = result['last_attempt_timestamp']
+                send_message(bot, result, telegram_chat_id)
         except requests.exceptions.ReadTimeout:
             pass
         except requests.exceptions.ConnectionError:
