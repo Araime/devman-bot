@@ -7,6 +7,7 @@ import requests
 import telegram
 from dotenv import load_dotenv
 
+logger = logging.getLogger('BotLogger')
 URl = 'https://dvmn.org/api/long_polling/'
 
 
@@ -56,7 +57,6 @@ def main():
 
     bot = telegram.Bot(token=telegram_token)
 
-    logger = logging.getLogger('BotLogger')
     logger.setLevel(logging.INFO)
     handler = TelegramBotHandler(bot, telegram_chat_id)
     formatter = logging.Formatter('%(message)s')
@@ -67,6 +67,7 @@ def main():
     timestamp = None
 
     while True:
+        # noinspection PyBroadException
         try:
             result = check_lesson_status(timestamp, devman_token)
             if result['status'] == 'timeout':
@@ -77,14 +78,12 @@ def main():
 
         except requests.exceptions.ReadTimeout:
             pass
-        except requests.exceptions.ConnectionError as err:
-            logger.info('Бот поймал ошибку: ')
-            logger.error(err, exc_info=True)
+        except requests.exceptions.ConnectionError:
+            logger.exception('Бот поймал ошибку: ')
             time.sleep(60)
             continue
-        except Exception as err:
-            logger.info('Бот поймал ошибку: ')
-            logger.error(err, exc_info=True)
+        except Exception:
+            logger.exception('Бот поймал ошибку: ')
 
 
 if __name__ == '__main__':
