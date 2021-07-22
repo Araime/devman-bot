@@ -90,9 +90,9 @@ python main.py
 
 5. В разделе Resources включите Procfile:  
 
-<a href="https://ibb.co/bPG3gQk"><img src="https://i.ibb.co/W6R3WGL/Screenshot-from-2019-04-12-13-22-47.png" alt="Screenshot-from-2019-04-12-13-22-47" border="0"></a>  
+<a href="https://ibb.co/n3VbdLj"><img src="https://i.ibb.co/bHyPwKX/666.png" alt="666" border="0"></a>  
 
-6. Перейти в раздел Setting и в пункте Config Vars указать DVMN_TOKEN, TELEGRAM_TOKEN,
+6. Перейти в раздел Settings и в пункте Config Vars указать DVMN_TOKEN, TELEGRAM_TOKEN,
    TELEGRAM_CHAT_ID:  
 
 <a href="https://ibb.co/5x70h7H"><img src="https://i.ibb.co/FqPr4PT/8.png" alt="8" border="0"></a>  
