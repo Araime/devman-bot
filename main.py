@@ -64,12 +64,6 @@ def main():
 
     timestamp = None
 
-    try:
-        0/0
-    except Exception as err:
-        logger.info('Бот поймал ошибку: ')
-        logger.error(err, exc_info=True)
-
     while True:
         try:
             result = check_lesson_status(timestamp, devman_token)
@@ -82,9 +76,13 @@ def main():
         except requests.exceptions.ReadTimeout:
             pass
         except requests.exceptions.ConnectionError as err:
-            logger.info(f'Ошибка подключения, нет сети {err}')
+            logger.info('Бот поймал ошибку: ')
+            logger.error(err, exc_info=True)
             time.sleep(60)
             continue
+        except Exception as err:
+            logger.info('Бот поймал ошибку: ')
+            logger.error(err, exc_info=True)
 
 
 if __name__ == '__main__':
