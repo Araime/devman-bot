@@ -65,11 +65,64 @@ TELEGRAM_CHAT_ID=ваш_персональный_chat_id
 
 ### Запуск
 
+Найти вашего бота в Telegram и написать ему сообщение `/start`
+
 Запуск скрипта выполняется командой:
 
 ```sh
 python main.py
 ```
+
+### Деплой и запуск на Heroku
+
+1. Зарегистрируйтесь на Heroku и создайте приложение (app):  
+   
+<a href="https://ibb.co/r5mDQ2Z"><img src="https://i.ibb.co/447hFRj/Screenshot-from-2019-04-10-17-43-30.png" alt="Screenshot-from-2019-04-10-17-43-30" border="0"></a><br />  
+
+2. Опубликуйте код репозитория на свой GitHub.  
+3. Привяжите свой аккаунт на GitHub к Heroku:  
+
+<a href="https://ibb.co/Hqy7yvP"><img src="https://i.ibb.co/zZgsgc2/123.png" alt="123" border="0"></a>
+
+4. Задеплойте проект на Heroku:  
+
+<a href="https://ibb.co/kgpN9tF"><img src="https://i.ibb.co/1f3Fdkx/5353.jpg" alt="5353" border="0"></a>  
+
+5. В разделе Resources включите Procfile:  
+
+<a href="https://ibb.co/bPG3gQk"><img src="https://i.ibb.co/W6R3WGL/Screenshot-from-2019-04-12-13-22-47.png" alt="Screenshot-from-2019-04-12-13-22-47" border="0"></a>  
+
+6. Перейти в раздел Setting и в пункте Config Vars указать DVMN_TOKEN, TELEGRAM_TOKEN,
+   TELEGRAM_CHAT_ID:  
+
+<a href="https://ibb.co/5x70h7H"><img src="https://i.ibb.co/FqPr4PT/8.png" alt="8" border="0"></a>  
+
+7. Задеплоить повторно(пункт 4).  
+
+#### Работа с ботом из командной строки
+
+Установить консольный [CLI client](https://devcenter.heroku.com/articles/heroku-cli#download-and-install).
+
+Быстрый старт CLI:
+
+Подключение к Heroku:
+```sh
+heroku login
+```
+Посмотреть список своих приложений:
+```sh
+heroku apps
+```
+Посмотреть логи:
+```sh
+heroku logs --app=имя_приложения
+```
+Статус бота:
+```sh
+heroku ps -a имя_приложения
+```
+
+[Руководство по Heroku CLI](https://devcenter.heroku.com/articles/using-the-cli)
 
 ### Цель проекта
 
