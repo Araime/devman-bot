@@ -10,17 +10,27 @@ from dotenv import load_dotenv
 URl = 'https://dvmn.org/api/long_polling/'
 
 
-def check_lesson_status(timestamp):
-    devman_token = os.getenv('DVMN_TOKEN')
+class TelegramBotHandler(logging.Handler):
+
+    def __init__(self, tg_bot, chat_id):
+        super().__init__()
+        self.tg_bot = tg_bot
+        self.chat_id = chat_id
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
+
+
+def check_lesson_status(timestamp, devman_token):
     headers = {'Authorization': f'Token {devman_token}'}
     payloads = {'timestamp': timestamp}
-    response = requests.get(URl, headers=headers, params=payloads, timeout=50)
+    response = requests.get(URl, headers=headers, params=payloads, timeout=120)
     response.raise_for_status()
     return response.json()
 
 
-def send_message(bot, result):
-    telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
+def send_message(bot, result, chat_id):
     checking_result = result['new_attempts'][0]
     title = checking_result['lesson_title']
     url = checking_result['lesson_url']
@@ -33,33 +43,46 @@ def send_message(bot, result):
         text_message = f'''У вас проверили работу "{title}" 
             Преподавателю всё понравилось 👍, можно приступать к следующему уроку! 
             https://dvmn.org{url}'''
-    bot.send_message(chat_id=telegram_chat_id, text=textwrap.dedent(text_message))
+    bot.send_message(chat_id=chat_id, text=textwrap.dedent(text_message))
 
 
 def main():
     load_dotenv()
+    devman_token = os.getenv('DVMN_TOKEN')
+    telegram_token = os.getenv('TELEGRAM_TOKEN')
+    telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
 
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(filename)s - %(name)s - %(levelname)s - %(message)s')
-    logging.info('Бот запущен и приветствует тебя')
+    bot = telegram.Bot(token=telegram_token)
 
-    bot = telegram.Bot(token=os.getenv('TELEGRAM_TOKEN'))
+    logger = logging.getLogger('BotLogger')
+    logger.setLevel(logging.INFO)
+    handler = TelegramBotHandler(bot, telegram_chat_id)
+    formatter = logging.Formatter('%(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    logger.info('Бот запущен и приветствует вас!')
+
     timestamp = None
+
+    try:
+        0/0
+    except Exception as err:
+        logger.info('Бот поймал ошибку: ')
+        logger.error(err, exc_info=True)
 
     while True:
         try:
-            result = check_lesson_status(timestamp)
+            result = check_lesson_status(timestamp, devman_token)
             if result['status'] == 'timeout':
                 timestamp = result['timestamp_to_request']
                 continue
             timestamp = result['last_attempt_timestamp']
-            send_message(bot, result)
+            send_message(bot, result, telegram_chat_id)
 
         except requests.exceptions.ReadTimeout:
             pass
         except requests.exceptions.ConnectionError as err:
-            logging.info(f'Ошибка подключения, нет сети {err}')
+            logger.info(f'Ошибка подключения, нет сети {err}')
             time.sleep(60)
             continue
 
