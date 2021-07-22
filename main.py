@@ -36,11 +36,13 @@ def send_message(bot, result, chat_id):
     url = checking_result['lesson_url']
 
     if checking_result['is_negative']:
-        text_message = f'''У вас проверили работу "{title}"
+        text_message = f'''
+            У вас проверили работу "{title}"
             К сожалению, в работе нашлись ошибки. ☟ 
             https://dvmn.org{url}'''
     else:
-        text_message = f'''У вас проверили работу "{title}" 
+        text_message = f'''
+            У вас проверили работу "{title}" 
             Преподавателю всё понравилось 👍, можно приступать к следующему уроку! 
             https://dvmn.org{url}'''
     bot.send_message(chat_id=chat_id, text=textwrap.dedent(text_message))

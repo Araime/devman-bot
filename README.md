@@ -1,7 +1,9 @@
 ## Бот для отправки уведомлений о проверке работ.
 
 Позволяет получать от бота в Telegram уведомления о проверке работ на сайте 
-веб-разработчиков [Девман](https://dvmn.org).
+веб-разработчиков [Девман](https://dvmn.org).  
+
+<a href="https://ibb.co/M1rtPzM"><img src="https://i.ibb.co/dpFVkNG/devman-bot-online.gif" alt="devman-bot-online" border="0"></a>
 
 ### Как установить
 
@@ -98,6 +100,10 @@ python main.py
 <a href="https://ibb.co/5x70h7H"><img src="https://i.ibb.co/FqPr4PT/8.png" alt="8" border="0"></a>  
 
 7. Задеплоить повторно(пункт 4).  
+
+Вы увидите сообщение о запуске в чате:  
+
+<a href="https://ibb.co/JHXxvrg"><img src="https://i.ibb.co/Xtmy7FM/image.jpg" alt="image" border="0"></a>  
 
 #### Работа с ботом из командной строки
 
