@@ -3,7 +3,7 @@
 Позволяет получать от бота в Telegram уведомления о проверке работ на сайте 
 веб-разработчиков [Девман](https://dvmn.org).  
 
-<a href="https://ibb.co/hZWFk1j"><img src="https://i.ibb.co/7RWtHN5/image.jpg" alt="image" border="0"></a>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/0tR2gm8/image.jpg" alt="image" border="0"></a>
 
 ### Как установить
 
